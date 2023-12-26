@@ -2,6 +2,14 @@ function Header({ course }) {
   return <h1>{course}</h1>;
 }
 
+function Part({ partName, numOfExercises }) {
+  return (
+    <p>
+      {partName} {numOfExercises}
+    </p>
+  );
+}
+
 function Content({
   part1,
   part2,
@@ -11,17 +19,11 @@ function Content({
   exercises3,
 }) {
   return (
-    <>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-    </>
+    <div>
+      <Part partName={part1} numOfExercises={exercises1} />
+      <Part partName={part2} numOfExercises={exercises2} />
+      <Part partName={part3} numOfExercises={exercises3} />
+    </div>
   );
 }
 
