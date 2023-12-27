@@ -15,6 +15,18 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState({});
 
+  let pointsArr = Object.entries(points);
+  console.log(pointsArr);
+
+  let max = 0;
+  let index = 0;
+  for (let i = 0; i < pointsArr.length; i++) {
+    if (pointsArr[i][1] > max) {
+      max = pointsArr[i][1];
+      index = pointsArr[i][0];
+    }
+  }
+
   return (
     <div>
       <p>{anecdotes[selected]}</p>
@@ -42,12 +54,16 @@ const App = () => {
       <button
         onClick={() => {
           let random = Math.floor(Math.random() * anecdotes.length);
-          console.log(random);
+          // console.log(random);
           setSelected(random);
         }}
       >
         next anecdote
       </button>
+      <div>
+        <h2>Anecdote with most votes</h2>
+        {max > 0 ? `${anecdotes[index]} has ${max}` : undefined}
+      </div>
     </div>
   );
 };
