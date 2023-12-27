@@ -2,31 +2,35 @@ import { useState } from 'react';
 
 function StatisticLine({ text, value }) {
   return (
-    <p>
-      {text} {value}
-      {text === 'positive' && ' %'}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>
+        {value} {text === 'positive' && ' %'}
+      </td>
+    </tr>
   );
 }
 
 const Statistics = ({ good = 0, bad = 0, neutral = 0 }) => {
   return (
-    <>
-      <StatisticLine text={'good'} value={good} />
-      <StatisticLine text={'neutral'} value={neutral} />
-      <StatisticLine text={'bad'} value={bad} />
-      <StatisticLine text={'all'} value={good + neutral + bad} />
-      <StatisticLine
-        text={'average'}
-        value={
-          (good + neutral * 0 + bad * -1) / (good + neutral + bad)
-        }
-      />
-      <StatisticLine
-        text="positive"
-        value={(good / (good + neutral + bad)) * 100}
-      />
-    </>
+    <table>
+      <tbody>
+        <StatisticLine text={'good'} value={good} />
+        <StatisticLine text={'neutral'} value={neutral} />
+        <StatisticLine text={'bad'} value={bad} />
+        <StatisticLine text={'all'} value={good + neutral + bad} />
+        <StatisticLine
+          text={'average'}
+          value={
+            (good + neutral * 0 + bad * -1) / (good + neutral + bad)
+          }
+        />
+        <StatisticLine
+          text="positive"
+          value={(good / (good + neutral + bad)) * 100}
+        />
+      </tbody>
+    </table>
   );
 };
 
