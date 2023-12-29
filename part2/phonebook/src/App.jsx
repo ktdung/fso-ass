@@ -14,6 +14,14 @@ const App = () => {
             let newPerson = {
               name: newName,
             };
+
+            let foundIndex = persons.findIndex((person) => {
+              return person.name === newName;
+            });
+            if (foundIndex !== -1) {
+              alert(`${newName} is alreay added to phonebook`);
+              return;
+            }
             console.log(persons.concat(newPerson));
             setPersons(persons.concat(newPerson));
             setNewName('');
@@ -25,7 +33,7 @@ const App = () => {
           <input
             value={newName}
             onChange={(event) => {
-              setNewName(event.target.value);
+              setNewName(event.target.value.trim());
             }}
           />
         </div>
