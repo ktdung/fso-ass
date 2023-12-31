@@ -26,7 +26,6 @@ const App = () => {
     : persons;
 
   function handleSubmit(newName, number) {
-    event.preventDefault();
     if (newName !== '' || number !== '') {
       let newPerson = {
         name: newName,
@@ -46,6 +45,15 @@ const App = () => {
     }
   }
 
+  function handleDeletePerson(id, name) {
+    if (window.confirm(`Delete ${name} ?`)) {
+      personsServices.deletePerson(id).then((response) => {
+        console.log(response);
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -54,7 +62,10 @@ const App = () => {
       <PersonForm handleSubmit={handleSubmit} />
 
       <h2>Numbers</h2>
-      <Persons persons={displayPersons} />
+      <Persons
+        persons={displayPersons}
+        handleDeletePerson={handleDeletePerson}
+      />
     </div>
   );
 };
