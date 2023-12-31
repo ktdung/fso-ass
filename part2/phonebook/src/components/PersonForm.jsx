@@ -18,7 +18,7 @@ function PersonForm({ handleSubmit }) {
         <input
           value={newName}
           onChange={(event) => {
-            setNewName(event.target.value.trim());
+            setNewName(event.target.value);
           }}
         />
       </div>

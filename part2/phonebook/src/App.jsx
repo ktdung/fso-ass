@@ -32,11 +32,31 @@ const App = () => {
         number: number,
       };
 
-      let foundIndex = persons.findIndex((person) => {
+      let found = persons.find((person) => {
         return person.name === newName;
       });
-      if (foundIndex !== -1) {
-        alert(`${newName} is alreay added to phonebook`);
+      if (found !== undefined) {
+        if (
+          window.confirm(
+            `${newName} is already added to phonebook, replace the old number with a new one?`
+          )
+        ) {
+          personsServices
+            .editPerson(found.id, {
+              ...newPerson,
+              id: found.id,
+            })
+            .then((returnedPerson) => {
+              setPersons(
+                persons.map((person) => {
+                  if (person.id === returnedPerson.id) {
+                    return returnedPerson;
+                  }
+                  return person;
+                })
+              );
+            });
+        }
         return;
       }
       personsServices.create(newPerson).then((returnedPerson) => {
