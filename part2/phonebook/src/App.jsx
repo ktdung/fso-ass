@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import personsServices from './services/persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((response) => {
+    personsServices.getAll().then((initialPersons) => {
       console.log('promise fulfilled');
-      setPersons(response.data);
+      setPersons(initialPersons);
     });
   }, []);
 
@@ -40,8 +40,9 @@ const App = () => {
         alert(`${newName} is alreay added to phonebook`);
         return;
       }
-      console.log(persons.concat(newPerson));
-      setPersons(persons.concat(newPerson));
+      personsServices.create(newPerson).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+      });
     }
   }
 
