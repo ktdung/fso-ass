@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const api_key = import.meta.env.VITE_SOME_KEY;
+console.log(api_key);
+
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('');
   const [list, setList] = useState([]);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     axios
@@ -14,6 +18,18 @@ function App() {
         console.log(response.data);
       });
   }, []);
+
+  useEffect(() => {
+    if (list.length === 1) {
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${list[0].capital}&appid=${api_key}&units=metric`
+        )
+        .then((response) => {
+          setWeather(response.data);
+        });
+    }
+  }, [list]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -69,6 +85,13 @@ function App() {
         <p>
           <img src={`${list[0].flags.png}`} width={150} />
         </p>
+        <h3>Weather in {list[0].capital}</h3>
+        <p>temperature {weather.main.temp} Celcius</p>
+        <img
+          src={` https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+          width={80}
+        />
+        <p>wind {weather.wind.speed} m/s</p>
       </>
     );
   }
