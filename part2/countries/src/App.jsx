@@ -30,13 +30,23 @@ function App() {
   let renderList = '';
   console.log(list.length);
 
+  function showCountry(country) {
+    let newList = [country];
+    setList(newList);
+  }
+
   if (list.length > 10) {
     renderList = <p>Too many matches, spectify another filter</p>;
   } else if (list.length <= 10 && list.length > 1) {
     renderList = (
       <>
         {list.map((item) => {
-          return <p key={item.name.common}>{item.name.common}</p>;
+          return (
+            <p key={item.name.common}>
+              {item.name.common}{' '}
+              <button onClick={() => showCountry(item)}>show</button>
+            </p>
+          );
         })}
       </>
     );
