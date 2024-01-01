@@ -58,6 +58,19 @@ const App = () => {
                   return person;
                 })
               );
+            })
+            .catch((error) => {
+              console.error(error);
+              setMessage({
+                title: `Information of ${newName} has already been removed from server`,
+                type: 'error',
+              });
+              setPersons(
+                persons.filter((person) => person.id !== found.id)
+              );
+              setTimeout(() => {
+                setMessage(null);
+              }, 3000);
             });
         }
         return;
@@ -66,7 +79,10 @@ const App = () => {
         // console.log(returnedPerson);
 
         setPersons(persons.concat(returnedPerson));
-        setMessage(`Added ${returnedPerson.name}`);
+        setMessage({
+          title: `Added ${returnedPerson.name}`,
+          type: 'success',
+        });
         setTimeout(() => {
           setMessage(null);
         }, 2500);
@@ -76,10 +92,15 @@ const App = () => {
 
   function handleDeletePerson(id, name) {
     if (window.confirm(`Delete ${name} ?`)) {
-      personsServices.deletePerson(id).then((response) => {
-        console.log(response);
-        setPersons(persons.filter((person) => person.id !== id));
-      });
+      personsServices
+        .deletePerson(id)
+        .then((response) => {
+          console.log(response);
+          setPersons(persons.filter((person) => person.id !== id));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 
