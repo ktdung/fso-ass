@@ -1,8 +1,9 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 
 app.use(express.json());
-
+app.use(morgan('tiny'));
 let persons = [
   {
     id: 1,
@@ -69,6 +70,7 @@ app.post('/api/persons', (req, res) => {
   let found = persons.find((person) => {
     return person.name.toLowerCase() === body.name.toLowerCase();
   });
+
   if (found) {
     return res.status(400).json({
       error: 'name must be unique',
