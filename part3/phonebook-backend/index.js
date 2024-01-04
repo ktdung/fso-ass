@@ -65,6 +65,15 @@ app.post('/api/persons', (req, res) => {
       error: 'new person must have a name',
     });
   }
+
+  let found = persons.find((person) => {
+    return person.name.toLowerCase() === body.name.toLowerCase();
+  });
+  if (found) {
+    return res.status(400).json({
+      error: 'name must be unique',
+    });
+  }
   //   console.log(person);
   const newPerson = {
     id: generateId(),
