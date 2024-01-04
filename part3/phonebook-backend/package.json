@@ -1,0 +1,16 @@
+{
+  "name": "phonebook-backend",
+  "version": "0.0.1",
+  "description": "phonebook backend expressjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm  start",
+    "dev": "nodemon run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
