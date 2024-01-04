@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json());
+
 let persons = [
   {
     id: 1,
@@ -23,6 +25,10 @@ let persons = [
     number: '39-23-6423122',
   },
 ];
+
+const generateId = () => {
+  return Math.floor(Math.random() * 10000000);
+};
 
 app.get('/info', (req, res) => {
   let date = new Date();
@@ -49,6 +55,27 @@ app.get('/api/persons/:id', (req, res) => {
       error: 'person not found',
     });
   }
+});
+
+app.post('/api/persons', (req, res) => {
+  let body = req.body;
+
+  if (!body.name) {
+    return res.status(400).json({
+      error: 'new person must have a name',
+    });
+  }
+  //   console.log(person);
+  const newPerson = {
+    id: generateId(),
+    name: body.name,
+    number: body.number || '000-000000',
+  };
+
+  persons = [...persons, newPerson];
+  console.log(persons);
+
+  res.json(newPerson);
 });
 
 app.delete('/api/persons/:id', (req, res) => {
