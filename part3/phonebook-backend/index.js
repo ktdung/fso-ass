@@ -24,8 +24,13 @@ let persons = [
   },
 ];
 
-app.get('/', (req, res) => {
-  res.send('hi');
+app.get('/info', (req, res) => {
+  let date = new Date().toString();
+  res.send(
+    `<p>Phonebook has info for ${
+      persons.length
+    } people</p><p>${date.toLocaleString()}</p>`
+  );
 });
 
 app.get('/api/persons', (req, res) => {
