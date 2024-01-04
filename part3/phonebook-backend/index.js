@@ -25,11 +25,11 @@ let persons = [
 ];
 
 app.get('/info', (req, res) => {
-  let date = new Date().toString();
+  let date = new Date();
   res.send(
     `<p>Phonebook has info for ${
       persons.length
-    } people</p><p>${date.toLocaleString()}</p>`
+    } people</p><p>${date.toString()}</p>`
   );
 });
 
@@ -49,6 +49,13 @@ app.get('/api/persons/:id', (req, res) => {
       error: 'person not found',
     });
   }
+});
+
+app.delete('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id);
+  persons = persons.filter((person) => person.id !== id);
+
+  res.status(204).end();
 });
 
 const PORT = 3001;
