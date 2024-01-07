@@ -54,7 +54,7 @@ app.get('/api/persons/:id', (req, res) => {
   }
 });
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', async (req, res) => {
   let body = req.body;
 
   if (!body.name) {
@@ -63,9 +63,10 @@ app.post('/api/persons', (req, res) => {
     });
   }
 
-  let found = persons.find((person) => {
-    return person.name.toLowerCase() === body.name.toLowerCase();
+  let found = await Person.findOne({
+    name: body.name.trim().toLowerCase(),
   });
+  console.log(found);
 
   if (found) {
     return res.status(400).json({
@@ -73,16 +74,14 @@ app.post('/api/persons', (req, res) => {
     });
   }
   //   console.log(person);
-  const newPerson = {
-    id: generateId(),
+  const newPerson = new Person({
     name: body.name,
     number: body.number || '000-000000',
-  };
+  });
 
-  persons = [...persons, newPerson];
-  console.log(persons);
-
-  res.json(newPerson);
+  newPerson.save().then((savedPerson) => {
+    res.json(savedPerson);
+  });
 });
 
 app.delete('/api/persons/:id', (req, res) => {
