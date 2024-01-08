@@ -96,30 +96,20 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .catch((error) => next(error));
 });
 
+const errorHandler = (error, req, res, next) => {
+  console.log(error.message);
+
+  if (error.name === 'CastError') {
+    return res.status(400).send({ error: 'Malformatted id' });
+  } else if (error.code === 'ENOENT') {
+    return res.status(400).send({ error: 'File did not exits' });
+  }
+  next(error);
+};
+
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log('server listening on port: ', PORT);
 });
-
-// let persons = [
-//   {
-//     id: 1,
-//     name: 'Arto Hellas',
-//     number: '040-123456',
-//   },
-//   {
-//     id: 2,
-//     name: 'Ada Lovelace',
-//     number: '39-44-5323523',
-//   },
-//   {
-//     id: 3,
-//     name: 'Dan Abramov',
-//     number: '12-43-234345',
-//   },
-//   {
-//     id: 4,
-//     name: 'Mary Poppendieck',
-//     number: '39-23-6423122',
-//   },
-// ];
