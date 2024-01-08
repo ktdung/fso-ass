@@ -84,11 +84,16 @@ app.post('/api/persons', async (req, res) => {
   });
 });
 
-app.delete('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id);
-  persons = persons.filter((person) => person.id !== id);
+app.delete('/api/persons/:id', (req, res, next) => {
+  console.log(req.params.id);
 
-  res.status(204).end();
+  Person.findByIdAndDelete(req.params.id)
+    .then((person) => {
+      console.log(person);
+
+      res.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 const PORT = process.env.PORT || 3001;
