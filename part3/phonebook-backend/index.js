@@ -25,13 +25,18 @@ app.use(express.static('dist'));
 
 // app.use(morgan('tiny'));
 
-app.get('/info', (req, res) => {
-  let date = new Date();
-  res.send(
-    `<p>Phonebook has info for ${
-      persons.length
-    } people</p><p>${date.toString()}</p>`
-  );
+app.get('/info', async (req, res, next) => {
+  try {
+    let date = new Date();
+
+    let count = await Person.countDocuments();
+
+    res.send(
+      `<p>Phonebook has info for ${count} people</p><p>${date.toString()}</p>`
+    );
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get('/api/persons', (req, res) => {
@@ -40,18 +45,19 @@ app.get('/api/persons', (req, res) => {
   });
 });
 
-app.get('/api/persons/:id', (req, res) => {
-  const person = persons.find(
-    (person) => person.id === Number(req.params.id)
-  );
+app.get('/api/persons/:id', (req, res, next) => {
+  const id = req.params.id;
 
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).json({
-      error: 'person not found',
-    });
-  }
+  Person.findById(id)
+    .then((person) => {
+      console.log(person);
+      if (person) {
+        res.json(person);
+      } else {
+        res.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
 });
 
 app.post('/api/persons', async (req, res) => {
