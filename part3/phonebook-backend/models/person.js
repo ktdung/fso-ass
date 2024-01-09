@@ -22,9 +22,18 @@ const personScheme = new mongoose.Schema({
   },
   number: {
     type: String,
-    validator: function (v) {
-      return /^\d{2,3}-\d{5,}$/.test(v);
+    validate: {
+      validator: function (v) {
+        // Kiểm tra số điện thoại có đúng định dạng không
+        return (
+          /^\d{2,3}-\d{}}+$/.test(v) &&
+          v.split('-').join().length >= 8
+        );
+      },
+      message: (props) =>
+        `${props.value} is not a valid phone number!`,
     },
+    required: [true, 'Phone number is required'],
   },
 });
 

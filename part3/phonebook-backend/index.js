@@ -82,7 +82,7 @@ app.post('/api/persons', async (req, res, next) => {
   //   console.log(person);
   const newPerson = new Person({
     name: body.name,
-    number: body.number || '000-000000',
+    number: body.number || '00-000000',
   });
 
   newPerson
