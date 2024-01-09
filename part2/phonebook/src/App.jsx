@@ -92,7 +92,7 @@ const App = () => {
         })
         .catch((error) => {
           console.log('5');
-          console.log(error.response.data.error);
+          console.log(error);
         });
     }
   }
