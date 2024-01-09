@@ -33,6 +33,7 @@ const App = () => {
         name: newName,
         number: number,
       };
+      console.log('3');
 
       let found = persons.find((person) => {
         return person.name === newName;
@@ -78,7 +79,7 @@ const App = () => {
       personsServices
         .create(newPerson)
         .then((createdPerson) => {
-          // console.log(returnedPerson);
+          console.log('4');
 
           setPersons(persons.concat(createdPerson));
           setMessage({
@@ -90,6 +91,7 @@ const App = () => {
           }, 2500);
         })
         .catch((error) => {
+          console.log('5');
           console.log(error.response.data.error);
         });
     }
