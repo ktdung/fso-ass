@@ -52,7 +52,8 @@ const App = () => {
               id: found.id,
             })
             .then((returnedPerson) => {
-              console.log(returnedPerson);
+              // console.log(returnedPerson);
+              console.log('3d');
               setPersons(
                 persons.map((person) => {
                   if (person.id === returnedPerson.id) {
@@ -63,6 +64,7 @@ const App = () => {
               );
             })
             .catch((error) => {
+              console.log('3c');
               console.error(error);
               // setMessage({
               //   title: `Information of ${newName} has already been removed from server`,
