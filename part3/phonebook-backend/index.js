@@ -1,14 +1,16 @@
+/* eslint-disable comma-dangle */
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+
 const app = express();
 
 const Person = require('./models/person');
 
 app.use(express.json());
 
-morgan.token('data', function (req, res) {
+morgan.token('data', (req) => {
   if (req.method === 'POST') {
     return JSON.stringify(req.body);
   }
@@ -27,9 +29,9 @@ app.use(express.static('dist'));
 
 app.get('/info', async (req, res, next) => {
   try {
-    let date = new Date();
+    const date = new Date();
 
-    let count = await Person.countDocuments();
+    const count = await Person.countDocuments();
 
     res.send(
       `<p>Phonebook has info for ${count} people</p><p>${date.toString()}</p>`
@@ -46,11 +48,11 @@ app.get('/api/persons', (req, res) => {
 });
 
 app.get('/api/persons/:id', (req, res, next) => {
-  const id = req.params.id;
+  const { id } = req.params;
 
   Person.findById(id)
     .then((person) => {
-      console.log(person);
+      // console.log(person);
       if (person) {
         res.json(person);
       } else {
@@ -60,8 +62,9 @@ app.get('/api/persons/:id', (req, res, next) => {
     .catch((error) => next(error));
 });
 
+// eslint-disable-next-line consistent-return
 app.post('/api/persons', async (req, res, next) => {
-  let body = req.body;
+  const { body } = req;
 
   if (!body.name) {
     return res.status(400).json({
@@ -69,10 +72,10 @@ app.post('/api/persons', async (req, res, next) => {
     });
   }
 
-  let found = await Person.findOne({
+  const found = await Person.findOne({
     name: body.name.trim().toLowerCase(),
   });
-  console.log(found);
+  // console.log(found);
 
   if (found) {
     return res.status(400).json({
@@ -96,11 +99,11 @@ app.post('/api/persons', async (req, res, next) => {
 });
 
 app.delete('/api/persons/:id', (req, res, next) => {
-  console.log(req.params.id);
+  // console.log(req.params.id);
 
   Person.findByIdAndDelete(req.params.id)
-    .then((person) => {
-      console.log(person);
+    .then(() => {
+      // console.log(person);
 
       res.status(204).end();
     })
@@ -108,13 +111,13 @@ app.delete('/api/persons/:id', (req, res, next) => {
 });
 
 app.put('/api/persons/:id', (req, res, next) => {
-  const body = req.body;
+  const { body } = req;
 
   const person = {
     name: body.name,
     number: body.number,
   };
-  console.log(person);
+  // console.log(person);
 
   Person.findByIdAndUpdate(req.params.id, person, {
     new: true,
@@ -128,23 +131,26 @@ app.put('/api/persons/:id', (req, res, next) => {
 });
 
 const errorHandler = (error, req, res, next) => {
-  console.log(error.message);
+  // console.log(error.message);
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'Malformatted id' });
-  } else if (error.code === 'ENOENT') {
+  }
+  if (error.code === 'ENOENT') {
     return res.status(400).send({ error: 'File did not exits' });
-  } else if (error.name === 'ValidationError') {
+  }
+  if (error.name === 'ValidationError') {
     return res.status(400).send({
       error: error.message,
     });
   }
-  next(error);
+  return next(error);
 };
 
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log('server listening on port: ', PORT);
 });
