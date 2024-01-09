@@ -74,7 +74,7 @@ const App = () => {
               //   persons.filter((person) => person.id !== found.id)
               // );
               setMessage({
-                title: `${error}`,
+                title: `${error.response.data.error}`,
                 type: 'error',
               });
               setTimeout(() => {
