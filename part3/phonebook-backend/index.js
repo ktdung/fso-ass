@@ -60,7 +60,7 @@ app.get('/api/persons/:id', (req, res, next) => {
     .catch((error) => next(error));
 });
 
-app.post('/api/persons', async (req, res) => {
+app.post('/api/persons', async (req, res, next) => {
   let body = req.body;
 
   if (!body.name) {
@@ -85,9 +85,14 @@ app.post('/api/persons', async (req, res) => {
     number: body.number || '000-000000',
   });
 
-  newPerson.save().then((savedPerson) => {
-    res.json(savedPerson);
-  });
+  newPerson
+    .save()
+    .then((savedPerson) => {
+      res.json(savedPerson);
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 app.delete('/api/persons/:id', (req, res, next) => {

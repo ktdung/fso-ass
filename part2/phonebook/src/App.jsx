@@ -75,18 +75,23 @@ const App = () => {
         }
         return;
       }
-      personsServices.create(newPerson).then((returnedPerson) => {
-        // console.log(returnedPerson);
+      personsServices
+        .create(newPerson)
+        .then((createdPerson) => {
+          // console.log(returnedPerson);
 
-        setPersons(persons.concat(returnedPerson));
-        setMessage({
-          title: `Added ${returnedPerson.name}`,
-          type: 'success',
+          setPersons(persons.concat(createdPerson));
+          setMessage({
+            title: `Added ${createdPerson.name}`,
+            type: 'success',
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 2500);
+        })
+        .catch((error) => {
+          console.log(error.response.data.error);
         });
-        setTimeout(() => {
-          setMessage(null);
-        }, 2500);
-      });
     }
   }
 
