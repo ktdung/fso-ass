@@ -44,6 +44,8 @@ const App = () => {
             `${newName} is already added to phonebook, replace the old number with a new one?`
           )
         ) {
+          console.log('3b');
+          console.log(found);
           personsServices
             .editPerson(found.id, {
               ...newPerson,
@@ -62,13 +64,17 @@ const App = () => {
             })
             .catch((error) => {
               console.error(error);
+              // setMessage({
+              //   title: `Information of ${newName} has already been removed from server`,
+              //   type: 'error',
+              // });
+              // setPersons(
+              //   persons.filter((person) => person.id !== found.id)
+              // );
               setMessage({
-                title: `Information of ${newName} has already been removed from server`,
+                title: `${error}`,
                 type: 'error',
               });
-              setPersons(
-                persons.filter((person) => person.id !== found.id)
-              );
               setTimeout(() => {
                 setMessage(null);
               }, 3000);
