@@ -93,6 +93,10 @@ const App = () => {
         .catch((error) => {
           console.log('5');
           console.log(error);
+          setMessage({
+            type: 'error',
+            title: `${error.response.data.error}`,
+          });
         });
     }
   }
