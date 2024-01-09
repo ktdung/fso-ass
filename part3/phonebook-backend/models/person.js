@@ -27,7 +27,7 @@ const personScheme = new mongoose.Schema({
         // Kiểm tra số điện thoại có đúng định dạng không
         return (
           /^\d{2,3}-\d{}}+$/.test(v) &&
-          v.split('-').join().length >= 8
+          v.split('-').join('').length >= 8
         );
       },
       message: (props) =>
