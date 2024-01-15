@@ -43,9 +43,34 @@ const mostBlogs = (blogs) => {
   }
 };
 
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return {};
+  } else {
+    // Sử dụng Lodash để nhóm theo tác giả và tính tổng số likes
+    const authorLikesCounts = _.groupBy(blogs, 'author');
+    const authorTotalLikes = _.mapValues(
+      authorLikesCounts,
+      (authorPosts) => _.sumBy(authorPosts, 'likes')
+    );
+
+    // Tìm tác giả có số likes nhiều nhất
+    const mostLikedAuthor = _.maxBy(
+      _.keys(authorTotalLikes),
+      (author) => authorTotalLikes[author]
+    );
+
+    return {
+      author: mostLikedAuthor,
+      likes: authorTotalLikes[mostLikedAuthor],
+    };
+  }
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };
