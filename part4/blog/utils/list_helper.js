@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const dummy = (blogs) => {
   return 1;
 };
@@ -18,8 +20,32 @@ const favoriteBlog = (blogs) => {
       });
 };
 
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    let emptyObj = {};
+    return emptyObj;
+  } else {
+    // Sử dụng Lodash để nhóm theo tác giả và đếm số lượng bài viết
+    const authorPostCounts = _.countBy(blogs, 'author');
+
+    // Tìm tác giả có nhiều bài viết nhất
+    const mostProlificAuthor = _.maxBy(
+      _.keys(authorPostCounts),
+      (author) => authorPostCounts[author]
+    );
+
+    let mostBlog = {
+      author: `${mostProlificAuthor}`,
+      blogs: authorPostCounts[mostProlificAuthor],
+    };
+
+    return mostBlog;
+  }
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 };
