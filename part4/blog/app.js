@@ -26,7 +26,7 @@ logger.info('connecting to', config.MONGODB_URI);
 app.use(cors());
 app.use(express.json());
 app.use(express.static('dist'));
-app.use(middleware.requestLogger);
+// app.use(middleware.requestLogger);
 
 // console.log('hello');
 

@@ -12,6 +12,7 @@ beforeEach(async () => {
   for (let blog of helper.initialBlogs) {
     let blogObject = new Blog(blog);
     let data = await blogObject.save();
+    // console.log(data);
   }
 });
 
@@ -33,18 +34,25 @@ test('4.9 Write a test that verifies that the unique identifier property of the 
 });
 
 test('4.10 Write a test that verifies that making an HTTP POST request to the /api/blogs URL successfully creates a new blog post.', async () => {
-  const newBlog = new Blog({
-    title: 'Learn how to learn',
-    author: 'Barbara Oakley',
-    url: 'https://www.coursera.org/learn/learning-how-to-learn',
-    likes: 10,
-  });
+  const newBlog = {
+    title: 'how to learn node.js',
+    author: 'dungkt',
+    url: '#',
+    likes: 200,
+  };
 
   await api
     .post('/api/blogs')
-    .setEncoding(newBlog)
+    .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  console.log(blogsAtEnd);
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+
+  const titles = blogsAtEnd.map((r) => r.title);
+  expect(titles).toContain('how to learn node.js');
 });
 
 afterAll(async () => {
