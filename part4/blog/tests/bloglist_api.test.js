@@ -16,21 +16,23 @@ beforeEach(async () => {
   }
 });
 
-test('list all blogpost', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
+describe('when there is initially some notes saved', () => {
+  test('list all blogpost', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
 
-  const response = await api.get('/api/blogs');
-  expect(response.body).toHaveLength(helper.initialBlogs.length);
-});
+    const response = await api.get('/api/blogs');
+    expect(response.body).toHaveLength(helper.initialBlogs.length);
+  });
 
-test('4.9 Write a test that verifies that the unique identifier property of the blog posts is named id, by default the database names the property _id.', async () => {
-  const response = await api.get('/api/blogs');
+  test('4.9 Write a test that verifies that the unique identifier property of the blog posts is named id, by default the database names the property _id.', async () => {
+    const response = await api.get('/api/blogs');
 
-  expect(response.body[0].id).toBeDefined();
-  expect(response.body[0]._id).toBe(undefined);
+    expect(response.body[0].id).toBeDefined();
+    expect(response.body[0]._id).toBe(undefined);
+  });
 });
 
 test('4.10 Write a test that verifies that making an HTTP POST request to the /api/blogs URL successfully creates a new blog post.', async () => {
@@ -81,6 +83,32 @@ test('4.12', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400);
+});
+
+describe('delete of a blog', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToDelete = blogsAtStart[0];
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+  });
+});
+
+test('test PUT method for /api/blogs/:id', async () => {
+  let blogsAtStart = await helper.blogsInDb();
+  let getFirstBlog = blogsAtStart[0];
+  console.log(getFirstBlog);
+  let editBlog = {
+    likes: 10000,
+  };
+
+  await api
+    .put(`/api/blogs/${getFirstBlog.id}`)
+    .send(editBlog)
+    .expect(200);
 });
 
 afterAll(async () => {
