@@ -1,6 +1,7 @@
 const config = require('./utils/config');
 const mongoose = require('mongoose');
 const express = require('express');
+require('express-async-errors');
 const app = express();
 const cors = require('cors');
 const blogsRouter = require('./controllers/blog.controller');
@@ -27,7 +28,7 @@ app.use(express.json());
 app.use(express.static('dist'));
 app.use(middleware.requestLogger);
 
-console.log('hello');
+// console.log('hello');
 
 app.get('/info', (req, res) => {
   console.log('1');
