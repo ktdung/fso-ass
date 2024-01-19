@@ -58,6 +58,7 @@ test('4.10 Write a test that verifies that making an HTTP POST request to the /a
 test('4.11', async () => {
   const newBlog = {
     title: 'test',
+    url: '#',
     author: 'me',
   };
 
@@ -69,6 +70,17 @@ test('4.11', async () => {
 
   expect(response.body.likes).toBeDefined();
   expect(response.body.likes).toBe(0);
+});
+
+test('4.12', async () => {
+  const newBlog = {
+    author: 'me',
+  };
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400);
 });
 
 afterAll(async () => {
