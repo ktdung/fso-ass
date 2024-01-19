@@ -32,6 +32,21 @@ test('4.9 Write a test that verifies that the unique identifier property of the 
   expect(response.body[0]._id).toBe(undefined);
 });
 
+test('4.10 Write a test that verifies that making an HTTP POST request to the /api/blogs URL successfully creates a new blog post.', async () => {
+  const newBlog = new Blog({
+    title: 'Learn how to learn',
+    author: 'Barbara Oakley',
+    url: 'https://www.coursera.org/learn/learning-how-to-learn',
+    likes: 10,
+  });
+
+  await api
+    .post('/api/blogs')
+    .setEncoding(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
