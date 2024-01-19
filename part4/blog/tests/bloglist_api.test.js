@@ -48,11 +48,27 @@ test('4.10 Write a test that verifies that making an HTTP POST request to the /a
     .expect('Content-Type', /application\/json/);
 
   const blogsAtEnd = await helper.blogsInDb();
-  console.log(blogsAtEnd);
+  // console.log(blogsAtEnd);
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
   const titles = blogsAtEnd.map((r) => r.title);
   expect(titles).toContain('how to learn node.js');
+});
+
+test('4.11', async () => {
+  const newBlog = {
+    title: 'test',
+    author: 'me',
+  };
+
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  expect(response.body.likes).toBeDefined();
+  expect(response.body.likes).toBe(0);
 });
 
 afterAll(async () => {
