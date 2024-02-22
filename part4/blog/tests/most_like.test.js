@@ -1,4 +1,4 @@
-const listHelper = require('../utils/list_helper');
+// const listHelper = require('../utils/list_helper');
 
 const blogs = [
   {
@@ -51,21 +51,48 @@ const blogs = [
   },
 ];
 
-describe('most likes', () => {
+// describe('most likes', () => {
+//   test('of empty list is zero', () => {
+//     const blogs = [];
+//     expect(listHelper.mostLikes(blogs)).toEqual({});
+//   });
+
+//   test('when list has only one blogs', () => {
+//     expect(listHelper.mostLikes(blogs.slice(0, 1))).toEqual({
+//       author: 'Michael Chan',
+//       likes: 7,
+//     });
+//   });
+
+//   test('of list a big list of blogs', () => {
+//     expect(listHelper.mostLikes(blogs)).toEqual({
+//       author: 'Edsger W. Dijkstra',
+//       likes: 17,
+//     });
+//   });
+// });
+
+// node:test
+
+const { test, describe } = require('node:test');
+const assert = require('node:assert');
+const listHelper = require('../utils/list_helper');
+
+describe('4.7 most likes', () => {
   test('of empty list is zero', () => {
     const blogs = [];
-    expect(listHelper.mostLikes(blogs)).toEqual({});
+    assert.deepStrictEqual(listHelper.mostLikes(blogs), {});
   });
 
-  test('when list has only one blogs', () => {
-    expect(listHelper.mostLikes(blogs.slice(0, 1))).toEqual({
+  test('when list has only blogs', () => {
+    assert.deepStrictEqual(listHelper.mostLikes(blogs.slice(0, 1)), {
       author: 'Michael Chan',
       likes: 7,
     });
   });
 
-  test('of list a big list of blogs', () => {
-    expect(listHelper.mostLikes(blogs)).toEqual({
+  test('big list of blogs', () => {
+    assert.deepStrictEqual(listHelper.mostLikes(blogs), {
       author: 'Edsger W. Dijkstra',
       likes: 17,
     });

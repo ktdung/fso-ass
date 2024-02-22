@@ -138,7 +138,7 @@ const blogs = [
   },
 ];
 
-describe('favorite blog', () => {
+describe('4.5 favorite blog', () => {
   test('when list has only one blog, equal the likes of that', () => {
     const result = listHelper.favoriteBlog(blogs.slice(0, 1));
 
