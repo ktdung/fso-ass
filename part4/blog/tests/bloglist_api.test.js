@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
+const { test, after, describe, beforeEach } = require('node:test');
+const assert = require('node:assert');
 const app = require('../app');
-const Blog = require('../models/blog');
+const Blog = require('../models/blog.model');
 const helper = require('./bloglist_helper');
 
 const api = supertest(app);
@@ -24,7 +26,9 @@ describe('when there is initially some notes saved', () => {
       .expect('Content-Type', /application\/json/);
 
     const response = await api.get('/api/blogs');
-    expect(response.body).toHaveLength(helper.initialBlogs.length);
+    console.log(response.body);
+    // expect(response.body).toHaveLength(helper.initialBlogs.length);
+    assert.equal(response.body.length, helper.initialBlogs.length);
   });
 
   test('4.9 Write a test that verifies that the unique identifier property of the blog posts is named id, by default the database names the property _id.', async () => {
@@ -111,6 +115,6 @@ test('test PUT method for /api/blogs/:id', async () => {
     .expect(200);
 });
 
-afterAll(async () => {
+after(async () => {
   await mongoose.connection.close();
 });
