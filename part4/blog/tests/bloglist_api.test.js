@@ -62,10 +62,19 @@ test('4.10 Write a test that verifies that making an HTTP POST request to the /a
 
   const blogsAtEnd = await helper.blogsInDb();
   // console.log(blogsAtEnd);
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+  // using jest
+  // expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+  // using node:test
+  assert.equal(blogsAtEnd.length, helper.initialBlogs.length + 1);
 
   const titles = blogsAtEnd.map((r) => r.title);
-  expect(titles).toContain('how to learn node.js');
+  // using jest
+  // expect(titles).toContain('how to learn node.js');
+  // using node:test
+  const blogWithTitle = await Blog.findOne({
+    title: 'how to learn node.js',
+  });
+  assert.ok(blogWithTitle.title, 'how to learn node.js');
 });
 
 test('4.11', async () => {
