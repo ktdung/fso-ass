@@ -90,8 +90,25 @@ test('4.11', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/);
 
-  expect(response.body.likes).toBeDefined();
-  expect(response.body.likes).toBe(0);
+  // using jext
+  // expect(response.body.likes).toBeDefined();
+  // expect(response.body.likes).toBe(0);
+
+  // using node:test node:assert
+  // check if the newly added blog is in the database
+  const addedBlog = await Blog.findOne({
+    _id: response.body.id,
+  });
+
+  assert.ok(
+    addedBlog,
+    'Newly added blog should exist in the database'
+  );
+  assert.strictEqual(
+    addedBlog.likes,
+    0,
+    'Likes property should default to 0'
+  );
 });
 
 test('4.12', async () => {
