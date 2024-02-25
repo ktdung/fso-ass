@@ -26,16 +26,23 @@ describe('when there is initially some notes saved', () => {
       .expect('Content-Type', /application\/json/);
 
     const response = await api.get('/api/blogs');
-    console.log(response.body);
+    // using jest
     // expect(response.body).toHaveLength(helper.initialBlogs.length);
+
+    // using node:test
     assert.equal(response.body.length, helper.initialBlogs.length);
   });
 
   test('4.9 Write a test that verifies that the unique identifier property of the blog posts is named id, by default the database names the property _id.', async () => {
     const response = await api.get('/api/blogs');
 
-    expect(response.body[0].id).toBeDefined();
-    expect(response.body[0]._id).toBe(undefined);
+    // using jest
+    // expect(response.body[0].id).toBeDefined();
+    // expect(response.body[0]._id).toBe(undefined);
+
+    // using node:test
+    assert.ok(response.body[0].id);
+    assert.strictEqual(response.body[0]._id, undefined);
   });
 });
 
