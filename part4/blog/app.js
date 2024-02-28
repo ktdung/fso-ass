@@ -6,6 +6,7 @@ const app = express();
 const cors = require('cors');
 const blogsRouter = require('./controllers/blog.controller');
 const usersRouter = require('./controllers/user.controller');
+const loginRouter = require('./controllers/login.controller');
 const logger = require('./utils/logger');
 const middleware = require('./utils/middleware');
 
@@ -40,6 +41,7 @@ app.get('/info', (req, res) => {
 });
 
 // router
+app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
 app.use('/api/users', usersRouter);
 app.use(middleware.unknownEndpoint);
