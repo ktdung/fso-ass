@@ -4,10 +4,13 @@ const uniqueValidator = require('mongoose-unique-validator');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: [true, 'Please enter a username'],
     unique: true,
+    minLength: [3, 'Username is too short'],
   },
-  name: String,
+  name: {
+    type: String,
+  },
   passwordHash: String,
 });
 
