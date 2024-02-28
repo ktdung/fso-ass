@@ -41,6 +41,7 @@ app.get('/info', (req, res) => {
 });
 
 // router
+app.use(middleware.tokenExtractor);
 app.use('/api/login', loginRouter);
 app.use('/api/blogs', blogsRouter);
 app.use('/api/users', usersRouter);

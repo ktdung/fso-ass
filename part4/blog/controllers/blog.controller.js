@@ -11,24 +11,26 @@ blogsRouter.get('/', async (req, res) => {
   res.json(blogs);
 });
 
-const getTokenFrom = (request) => {
-  const authorization = request.get('Authorization');
+// const getTokenFrom = (request) => {
+//   const authorization = request.get('Authorization');
 
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '');
-  }
+//   if (authorization && authorization.startsWith('Bearer ')) {
+//     return authorization.replace('Bearer ', '');
+//   }
 
-  return null;
-};
+//   return null;
+// };
 
 blogsRouter.post('/', async (req, res) => {
   const body = req.body;
   // console.log('1::', req.body);
 
   const decodedToken = jwt.verify(
-    getTokenFrom(req),
+    // getTokenFrom(req),
+    req.token,
     process.env.SECRET
   );
+  console.log('::decodedToken: ', decodedToken);
 
   if (!decodedToken.id) {
     return response.status(401).json({
