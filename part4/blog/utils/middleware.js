@@ -1,4 +1,7 @@
+const jwt = require('jsonwebtoken');
 const logger = require('./logger');
+const User = require('../models/user.model');
+const Blog = require('../models/blog.model');
 
 const requestLogger = (req, res, next) => {
   logger.info('Method:', req.method);
@@ -27,7 +30,12 @@ const errorHandler = (error, req, res, next) => {
     return res.status(401).json({
       error: error.message,
     });
+  } else if (error.name === 'TokenExpiredError') {
+    return res.status(401).json({
+      error: 'token expired',
+    });
   }
+
   next(error);
 };
 
@@ -40,7 +48,32 @@ const tokenExtractor = (req, res, next) => {
   next();
 };
 
+const userExtractor = async (req, res, next) => {
+  const decodedToken = jwt.verify(
+    // getTokenFrom(req),
+    req.token,
+    process.env.SECRET
+  );
+  console.log('::1decodedToken: ', decodedToken);
+
+  if (!decodedToken.id) {
+    return response.status(401).json({
+      error: 'token invalid',
+    });
+  }
+
+  console.log('bon:');
+  const user = await User.findById(decodedToken.id);
+  console.log('::userExtracker: ', user);
+  req.user = user;
+
+  // console.log('::middleware blog', user);
+
+  next();
+};
+
 module.exports = {
+  userExtractor,
   requestLogger,
   unknownEndpoint,
   errorHandler,

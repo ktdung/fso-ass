@@ -22,21 +22,24 @@ blogsRouter.get('/', async (req, res) => {
 // };
 
 blogsRouter.post('/', async (req, res) => {
+  console.log('blog-user: ', req.user);
   const body = req.body;
   // console.log('1::', req.body);
 
-  const decodedToken = jwt.verify(
-    // getTokenFrom(req),
-    req.token,
-    process.env.SECRET
-  );
-  console.log('::decodedToken: ', decodedToken);
+  // const decodedToken = jwt.verify(
+  //   // getTokenFrom(req),
+  //   req.token,
+  //   process.env.SECRET
+  // );
+  // console.log('::1decodedToken: ', decodedToken);
 
-  if (!decodedToken.id) {
-    return response.status(401).json({
-      error: 'token invalid',
-    });
-  }
+  // if (!decodedToken.id) {
+  //   return response.status(401).json({
+  //     error: 'token invalid',
+  //   });
+  // }
+  // req.user = decodedToken.id;
+  // console.log('ba: ', req.user);
 
   if (!body.title || !body.url) {
     return res.status(400).json({
@@ -46,8 +49,9 @@ blogsRouter.post('/', async (req, res) => {
   }
 
   // get User by ID
-  const user = await User.findById(body.user);
-  console.log(user);
+  // const user = await User.findById(body.user);
+  const user = req.user;
+  console.log(';:user', user);
 
   const blog = new Blog({
     title: body.title || '',
@@ -87,17 +91,20 @@ blogsRouter.delete('/:id', async (req, res) => {
     req.token,
     process.env.SECRET
   );
-  // console.log('::decodedToken: ', decodedToken);
+  // // console.log('::decodedToken: ', decodedToken);
 
-  if (!decodedToken.id) {
-    return response.status(401).json({
-      error: 'token invalid',
-    });
-  }
+  // if (!decodedToken.id) {
+  //   return response.status(401).json({
+  //     error: 'token invalid',
+  //   });
+  // }
 
-  const blog = await Blog.findById(req.params.id);
-  console.log('::blog ', blog);
-  if (blog.user.toString() === decodedToken.id.toString()) {
+  // req.user = decodedToken.id;
+
+  // const blog = await Blog.findById(req.params.id);
+  const user = req.user;
+  console.log('::user in blog ', user);
+  if (user._id.toString() === decodedToken.id.toString()) {
     await Blog.findByIdAndDelete(req.params.id);
     return res.status(204).end();
   }
