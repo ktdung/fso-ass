@@ -22,6 +22,10 @@ describe('when there is initially some notes saved', () => {
   test('list all blogpost', async () => {
     await api
       .get('/api/blogs')
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmdrdCIsImlkIjoiNjVlMDA1NWE4MzUxY2FmNTIzZmZjMmMzIiwiaWF0IjoxNzA5MTgwODI3LCJleHAiOjE3MDk1NDA4Mjd9.Eziv8AkGOdNfNsrCJZzGo_UXoisQoOWSzYnLFykixt0'
+      )
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
@@ -34,7 +38,12 @@ describe('when there is initially some notes saved', () => {
   });
 
   test('4.9 Write a test that verifies that the unique identifier property of the blog posts is named id, by default the database names the property _id.', async () => {
-    const response = await api.get('/api/blogs');
+    const response = await api
+      .get('/api/blogs')
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmdrdCIsImlkIjoiNjVlMDA1NWE4MzUxY2FmNTIzZmZjMmMzIiwiaWF0IjoxNzA5MTgwODI3LCJleHAiOjE3MDk1NDA4Mjd9.Eziv8AkGOdNfNsrCJZzGo_UXoisQoOWSzYnLFykixt0'
+      );
 
     // using jest
     // expect(response.body[0].id).toBeDefined();
@@ -56,6 +65,10 @@ test('4.10 Write a test that verifies that making an HTTP POST request to the /a
 
   await api
     .post('/api/blogs')
+    .set(
+      'Authorization',
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmdrdCIsImlkIjoiNjVlMDA1NWE4MzUxY2FmNTIzZmZjMmMzIiwiaWF0IjoxNzA5MTgwODI3LCJleHAiOjE3MDk1NDA4Mjd9.Eziv8AkGOdNfNsrCJZzGo_UXoisQoOWSzYnLFykixt0'
+    )
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/);
@@ -86,6 +99,10 @@ test('4.11', async () => {
 
   const response = await api
     .post('/api/blogs')
+    .set(
+      'Authorization',
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmdrdCIsImlkIjoiNjVlMDA1NWE4MzUxY2FmNTIzZmZjMmMzIiwiaWF0IjoxNzA5MTgwODI3LCJleHAiOjE3MDk1NDA4Mjd9.Eziv8AkGOdNfNsrCJZzGo_UXoisQoOWSzYnLFykixt0'
+    )
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/);
@@ -118,6 +135,10 @@ test('4.12', async () => {
 
   const response = await api
     .post('/api/blogs')
+    .set(
+      'Authorization',
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmdrdCIsImlkIjoiNjVlMDA1NWE4MzUxY2FmNTIzZmZjMmMzIiwiaWF0IjoxNzA5MTgwODI3LCJleHAiOjE3MDk1NDA4Mjd9.Eziv8AkGOdNfNsrCJZzGo_UXoisQoOWSzYnLFykixt0'
+    )
     .send(newBlog)
     .expect(400);
 });
@@ -127,7 +148,13 @@ describe('delete of a blog', () => {
     const blogsAtStart = await helper.blogsInDb();
     const blogToDelete = blogsAtStart[0];
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set(
+        'Authorization',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmdrdCIsImlkIjoiNjVlMDA1NWE4MzUxY2FmNTIzZmZjMmMzIiwiaWF0IjoxNzA5MTgwODI3LCJleHAiOjE3MDk1NDA4Mjd9.Eziv8AkGOdNfNsrCJZzGo_UXoisQoOWSzYnLFykixt0'
+      )
+      .expect(204);
 
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
@@ -144,6 +171,10 @@ test('test PUT method for /api/blogs/:id', async () => {
 
   await api
     .put(`/api/blogs/${getFirstBlog.id}`)
+    .set(
+      'Authorization',
+      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bmdrdCIsImlkIjoiNjVlMDA1NWE4MzUxY2FmNTIzZmZjMmMzIiwiaWF0IjoxNzA5MTgwODI3LCJleHAiOjE3MDk1NDA4Mjd9.Eziv8AkGOdNfNsrCJZzGo_UXoisQoOWSzYnLFykixt0'
+    )
     .send(editBlog)
     .expect(200);
 });

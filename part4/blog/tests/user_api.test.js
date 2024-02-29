@@ -1,9 +1,10 @@
 const bcrypt = require('bcrypt');
+const { test, describe, beforeEach, after } = require('node:test');
+const assert = require('node:assert');
 const suppertest = require('supertest');
 const User = require('../models/user.model');
 const app = require('../app');
 const helper = require('../tests/bloglist_helper');
-const { default: mongoose } = require('mongoose');
 
 const api = suppertest(app);
 
@@ -20,9 +21,9 @@ describe('when there is initially one user in db', () => {
     const usersAtStart = await helper.usersInDb();
 
     const newUser = {
-      username: 'dungkt',
-      name: 'kieu dung',
-      password: '1234',
+      username: 'dungkt2',
+      name: 'kieu dung 2',
+      password: 'hihi',
     };
 
     await api
