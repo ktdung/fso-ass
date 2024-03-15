@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import Blog from './components/Blog';
 import LoginForm from './components/LoginForm';
+import Notification from './components/Notification';
 
 import blogService from './services/blogs';
 import loginService from './services/login';
@@ -14,7 +15,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -31,6 +32,12 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+  }, [message]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -115,6 +122,8 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} />
+
       {user === null ? (
         <div>{loginForm()}</div>
       ) : (
