@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm';
 
 import blogService from './services/blogs';
 import loginService from './services/login';
+import BlogForm from './components/BlogForm';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -88,6 +89,23 @@ const App = () => {
     setUser(null);
   };
 
+  // create a blog
+  const createBlog = async (blogObject) => {
+    try {
+      const response = await blogService.create(blogObject);
+      setBlogs(blogs.concat(response));
+      setMessage({
+        text: `A new blog ${response.title} by ${response.author} added.`,
+        type: 'success',
+      });
+    } catch (error) {
+      setMessage({
+        text: `${error}`,
+        type: 'error',
+      });
+    }
+  };
+
   const userInfo = () => (
     <div>
       {user.name} logged in{' '}
@@ -103,6 +121,9 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           {userInfo()}
+          <br />
+
+          <BlogForm createBlog={createBlog} />
           <br />
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
