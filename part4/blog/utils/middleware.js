@@ -44,36 +44,38 @@ const tokenExtractor = (req, res, next) => {
 
   if (authorization && authorization.startsWith('Bearer ')) {
     req.token = authorization.replace('Bearer ', '');
+  } else {
+    req.token = null;
   }
   next();
 };
 
-const userExtractor = async (req, res, next) => {
-  const decodedToken = jwt.verify(
-    // getTokenFrom(req),
-    req.token,
-    process.env.SECRET
-  );
-  console.log('::1decodedToken: ', decodedToken);
+// const userExtractor = async (req, res, next) => {
+//   const decodedToken = jwt.verify(
+//     // getTokenFrom(req),
+//     req.token,
+//     process.env.SECRET
+//   );
+//   console.log('::1decodedToken: ', decodedToken);
 
-  if (!decodedToken.id) {
-    return response.status(401).json({
-      error: 'token invalid',
-    });
-  }
+//   if (!decodedToken.id) {
+//     return response.status(401).json({
+//       error: 'token invalid or missing ',
+//     });
+//   }
 
-  console.log('bon:');
-  const user = await User.findById(decodedToken.id);
-  console.log('::userExtracker: ', user);
-  req.user = user;
+//   console.log('bon:');
+//   const user = await User.findById(decodedToken.id);
+//   console.log('::userExtracker: ', user);
+//   req.user = user;
 
-  // console.log('::middleware blog', user);
+//   // console.log('::middleware blog', user);
 
-  next();
-};
+//   next();
+// };
 
 module.exports = {
-  userExtractor,
+  // userExtractor,
   requestLogger,
   unknownEndpoint,
   errorHandler,

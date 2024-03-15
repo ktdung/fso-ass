@@ -27,6 +27,11 @@ loginRouter.post('/', async (req, res) => {
     expiresIn: 6000 * 60,
   });
 
+  console.log('login log', {
+    token,
+    username: user.username,
+    name: user.name,
+  });
   res.status(200).send({
     token,
     username: user.username,
