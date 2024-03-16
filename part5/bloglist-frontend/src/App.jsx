@@ -90,6 +90,7 @@ const App = () => {
     );
   };
 
+  // logout
   const handleLogout = async () => {
     window.localStorage.removeItem('loggedBlogappUser');
     setMessage({
@@ -117,6 +118,11 @@ const App = () => {
     }
   };
 
+  // Like Blog
+  const likeBlog = async (id, likes) => {
+    await blogService.update({ id: id, likes: likes + 1 });
+  };
+
   const userInfo = () => (
     <div>
       {user.name} logged in{' '}
@@ -141,7 +147,7 @@ const App = () => {
           </Toggleable>
           <br />
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
           ))}
         </div>
       )}
