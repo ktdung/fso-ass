@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const [show, setShow] = React.useState(false);
@@ -36,6 +37,17 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
       </div>
     </div>
   );
+};
+
+Blog.propTypes = {
+  likeBlog: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
+  blog: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+  }),
 };
 
 export default Blog;
