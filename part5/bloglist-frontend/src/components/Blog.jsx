@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Blog = ({ blog, likeBlog }) => {
+const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const [show, setShow] = React.useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -32,6 +32,7 @@ const Blog = ({ blog, likeBlog }) => {
           </button>
         </p>
         <p>{blog.user.name}</p>
+        <button onClick={() => deleteBlog(blog)}>remove</button>
       </div>
     </div>
   );

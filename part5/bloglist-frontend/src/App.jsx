@@ -132,6 +132,20 @@ const App = () => {
     </div>
   );
 
+  // delete blog
+  const deleteBlog = async (blog) => {
+    const result = window.confirm(
+      `Remove a blog ${blog.title} by ${blog.author}.`
+    );
+
+    if (result) {
+      await blogService.remove({
+        id: blog.id,
+      });
+    }
+    setUpdateBlog(Math.floor(Math.random() * 10000));
+  };
+
   return (
     <div>
       <Notification message={message} />
@@ -150,7 +164,12 @@ const App = () => {
           <br />
           {blogs.sort((a, b) => (a.likes > b.likes ? -1 : 1)) &&
             blogs.map((blog) => (
-              <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                likeBlog={likeBlog}
+                deleteBlog={deleteBlog}
+              />
             ))}
         </div>
       )}
