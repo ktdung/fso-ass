@@ -17,12 +17,13 @@ const App = () => {
   const [password, setPassword] = useState('');
 
   const [message, setMessage] = useState(null);
+  const [updateBlog, setUpdateBlog] = useState(null);
 
   const blogFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+  }, [updateBlog]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem(
@@ -121,6 +122,7 @@ const App = () => {
   // Like Blog
   const likeBlog = async (id, likes) => {
     await blogService.update({ id: id, likes: likes + 1 });
+    setUpdateBlog(Math.floor(Math.random() * 10000));
   };
 
   const userInfo = () => (
