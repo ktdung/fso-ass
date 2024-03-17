@@ -1,47 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const Blog = ({ blog, likeBlog, deleteBlog }) => {
-  const [show, setShow] = React.useState(false);
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-  };
+  const [showFull, setShowFull] = useState(false);
 
-  const handleShowBlog = (event) => {
-    setShow(!show);
-  };
-  return (
-    <div style={blogStyle}>
-      <p>
-        {blog.title} {blog.author}{' '}
-        <button onClick={handleShowBlog}>
-          {show ? 'hide' : 'view'}
-        </button>
-      </p>
-      <div style={{ display: show ? '' : 'none' }}>
+  const showFullBlog = () => {
+    return (
+      <div>
+        <p>URL: {blog.url}</p>
         <p>
-          <a href={`${blog.url}`}>{blog.url}</a>
-        </p>
-        <p>
-          likes {blog.likes}{' '}
-          <button onClick={() => likeBlog(blog.id, blog.likes)}>
-            like
+          {blog.likes === 1
+            ? `${blog.likes} like`
+            : `${blog.likes} likes`}
+          <button
+            className="like"
+            onClick={() => likeBlog(blog.id, blog.likes)}
+          >
+            Like
           </button>
         </p>
-        <p>{blog.user.name}</p>
-        <button onClick={() => deleteBlog(blog)}>remove</button>
+        <p>User: {blog.user.name}</p>
+        <button className="remove" onClick={() => deleteBlog(blog)}>
+          Remove
+        </button>
       </div>
+    );
+  };
+
+  return (
+    <div className="blog-container">
+      <div className="blog-title">
+        <strong>{blog.title}</strong>
+        by <i>{blog.author}</i>
+      </div>
+      <button onClick={() => setShowFull(!showFull)}>
+        {showFull ? 'Hide' : 'View'}
+      </button>
+      {showFull && showFullBlog()}
     </div>
   );
 };
 
 Blog.propTypes = {
-  likeBlog: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
+  setUpdate: PropTypes.func,
   blog: PropTypes.shape({
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,

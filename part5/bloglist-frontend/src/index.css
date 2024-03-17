@@ -1,5 +1,5 @@
 .notification {
-  background: lightgray;
+  background: lightgrey;
   font-size: 20px;
   border-style: solid;
   border-radius: 5px;
@@ -10,6 +10,12 @@
 .notification--success {
   color: green;
 }
+
 .notification--error {
   color: red;
+}
+.blog-container {
+  border: 2px solid;
+  margin: 16px 0;
+  padding: 16px;
 }
