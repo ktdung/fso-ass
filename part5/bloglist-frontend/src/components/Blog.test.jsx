@@ -1,6 +1,6 @@
 import React from 'react';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Blog from './Blog';
 
 describe('<Blog /> component', () => {
@@ -36,6 +36,31 @@ describe('<Blog /> component', () => {
 
     console.log(element);
     console.log(element4);
-    screen.debug();
+    // screen.debug();
+  });
+
+  test('5.14 check blog url and likes are shown when button has been cliked', async () => {
+    blog = {
+      title: 'Test Blog',
+      author: 'Test Author',
+      url: 'http://example.com',
+      likes: 0,
+      user: { id: 1 },
+    };
+
+    const container = render(
+      <Blog blog={blog} user={blog.user} />
+    ).container;
+
+    const user = userEvent.setup();
+    const button = screen.getByText('View');
+    await user.click(button);
+    // screen.debug();
+
+    const element3 = container.querySelector('.blog-url');
+    const element4 = container.querySelector('.blog-like');
+
+    expect(element3).toBeDefined();
+    expect(element4).toBeDefined();
   });
 });

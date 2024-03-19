@@ -7,8 +7,8 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const showFullBlog = () => {
     return (
       <div>
-        <p>URL: {blog.url}</p>
-        <p>
+        <p className="blog-url">URL: {blog.url}</p>
+        <p className="blog-like">
           {blog.likes === 1
             ? `${blog.likes} like`
             : `${blog.likes} likes`}
