@@ -36,7 +36,6 @@ describe('<Blog /> component', () => {
 
     console.log(element);
     console.log(element4);
-    // screen.debug();
   });
 
   test('5.14 check blog url and likes are shown when button has been cliked', async () => {
@@ -55,12 +54,37 @@ describe('<Blog /> component', () => {
     const user = userEvent.setup();
     const button = screen.getByText('View');
     await user.click(button);
-    // screen.debug();
 
     const element3 = container.querySelector('.blog-url');
     const element4 = container.querySelector('.blog-like');
 
     expect(element3).toBeDefined();
     expect(element4).toBeDefined();
+  });
+
+  test('5.15 check like button is clicked twice', async () => {
+    blog = {
+      title: 'Test Blog',
+      author: 'Test Author',
+      url: 'http://example.com',
+      likes: 0,
+      user: { id: 1 },
+    };
+    const likeBlog = vi.fn();
+
+    const container = render(
+      <Blog blog={blog} user={blog.user} likeBlog={likeBlog} />
+    ).container;
+
+    const user = userEvent.setup();
+    const button = screen.getByText('View');
+    await user.click(button);
+
+    const likeBtn = container.querySelector('.like');
+    await user.click(likeBtn);
+    await user.click(likeBtn);
+
+    expect(likeBlog.mock.calls).toHaveLength(2);
+    console.log(likeBlog.mock.calls);
   });
 });
