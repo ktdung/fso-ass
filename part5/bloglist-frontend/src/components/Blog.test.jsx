@@ -34,8 +34,8 @@ describe('<Blog /> component', () => {
     expect(element3).toBeNull();
     expect(element4).toBeNull();
 
-    console.log(element);
-    console.log(element4);
+    // console.log(element);
+    // console.log(element4);
   });
 
   test('5.14 check blog url and likes are shown when button has been cliked', async () => {
@@ -85,6 +85,6 @@ describe('<Blog /> component', () => {
     await user.click(likeBtn);
 
     expect(likeBlog.mock.calls).toHaveLength(2);
-    console.log(likeBlog.mock.calls);
+    // console.log(likeBlog.mock.calls);
   });
 });
