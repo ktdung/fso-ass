@@ -43,6 +43,7 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
 
 Blog.propTypes = {
   setUpdate: PropTypes.func,
+  deleteBlog: PropTypes.func,
   blog: PropTypes.shape({
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
