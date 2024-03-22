@@ -80,6 +80,12 @@ describe('Blog app', () => {
         cy.contains('View').click();
         cy.get('.like').click();
       });
+
+      it('user who created the blog can delete it', function () {
+        cy.contains('View').click();
+        cy.get('.remove').click();
+        cy.on('windows:confirm', () => true);
+      });
     });
   });
 });
