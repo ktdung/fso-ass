@@ -65,5 +65,21 @@ describe('Blog app', () => {
       cy.get('#create-blog').click();
       cy.contains('How to teach');
     });
+
+    describe('and a blog exist', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'how to coding',
+          author: 'anon',
+          url: 'example.com',
+          likes: 3,
+        });
+      });
+
+      it('user like a blog', function () {
+        cy.contains('View').click();
+        cy.get('.like').click();
+      });
+    });
   });
 });
