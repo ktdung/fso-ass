@@ -86,6 +86,26 @@ describe('Blog app', () => {
         cy.get('.remove').click();
         cy.on('windows:confirm', () => true);
       });
+
+      it('A blog cannot be deleted by a user who did not create the blog', function () {
+        cy.contains('new note').click();
+        cy.get('#title').type('test title');
+        cy.get('#author').type('test author');
+        cy.get('#url').type('test url');
+        cy.get('#create-blog').click();
+        cy.contains('Logout').click();
+        cy.request('POST', 'http://localhost:3003/api/users', {
+          username: 'blogtest2',
+          name: 'Test User 2',
+          password: 'blogpassword2',
+        });
+        cy.login({
+          username: 'blogtest2',
+          password: 'blogpassword2',
+        });
+        cy.contains('view').click();
+        cy.get('html').should('not.contain', 'Remove');
+      });
     });
   });
 });
