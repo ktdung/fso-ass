@@ -42,4 +42,28 @@ describe('Blog app', () => {
         .and('have.css', 'color', 'rgb(255, 0, 0)');
     });
   });
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.request('POST', 'http://localhost:3003/api/login', {
+        username: 'root',
+        password: 'root',
+      }).then((response) => {
+        localStorage.setItem(
+          'loggedBlogappUser',
+          JSON.stringify(response.body)
+        );
+        cy.visit('http://localhost:5173');
+      });
+    });
+
+    it('A blog can be created', function () {
+      cy.contains('new note').click();
+      cy.get('#title').type('How to teach');
+      cy.get('#author').type('kent c dodds');
+      cy.get('#url').type('https://kentcdodds.com');
+      cy.get('#create-blog').click();
+      cy.contains('How to teach');
+    });
+  });
 });
