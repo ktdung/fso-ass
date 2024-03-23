@@ -40,7 +40,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setMessage(null);
-    }, 10000);
+    }, 5000);
   }, [message]);
 
   const handleLogin = async (event) => {
