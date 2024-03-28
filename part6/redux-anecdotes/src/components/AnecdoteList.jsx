@@ -34,12 +34,18 @@ const AnecdoteList = () => {
             <button
               onClick={() => {
                 dispatch(voteAnecdote(anecdote));
+                // dispatch(
+                //   setNotification(`you voted "${anecdote.content}"`)
+                // );
+                // setTimeout(() => {
+                //   dispatch(clearNotification());
+                // }, 5000);
                 dispatch(
-                  setNotification(`you voted "${anecdote.content}"`)
+                  setNotification({
+                    message: `you voted ${anecdote.content}`,
+                    durationInSeconds: 3,
+                  })
                 );
-                setTimeout(() => {
-                  dispatch(clearNotification());
-                }, 5000);
               }}
             >
               vote
